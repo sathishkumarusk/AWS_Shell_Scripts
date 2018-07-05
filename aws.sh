@@ -19,16 +19,16 @@ I=`aws ec2 describe-internet-gateways --query 'InternetGateways[0]'.'InternetGat
 IG=`echo $I | tr -d '"'`
 aws ec2 attach-internet-gateway --vpc-id $SUB --internet-gateway-id $IG >>$LOG
 echo "Creating Route Table for you VPC $SUB"
-echo ""
 aws ec2 create-route-table --vpc-id $SUB >>$LOG
 R=`aws ec2 describe-route-tables --query 'RouteTables[0]'.'RouteTableId'`
 RT=`echo $R | tr -d '"'`
+echo "Attaching your Route table t You internet Gatway - $IG"
 aws ec2 create-route --route-table-id $RT --destination-cidr-block 0.0.0.0/0 --gateway-id $IG >>$LOG
 aws ec2 describe-route-tables --route-table-id $RT >>$LOG
 echo ""
 echo  "Please choose the Subnet Which you want to make as Public ?"
-echo `aws ec2 describe-subnets --query 'Subnets[*]'.'SubnetId'`
-read -p "Please Enter the Subnet ID here (Without " ")" FORPUB
+echo ` aws ec2 describe-subnets --query 'Subnets[*]'.'SubnetId' --filter "Name=vpc-id,Values=$SUB"`
+read -p "Please Enter the Subnet ID here (Without quotes): " FORPUB
 aws ec2 associate-route-table  --subnet-id $FORPUB --route-table-id $RT >> $LOG
 }
 #****************Function END************
