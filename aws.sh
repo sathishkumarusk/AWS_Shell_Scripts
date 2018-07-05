@@ -1,7 +1,7 @@
 #!/bin/bash
 #This script to create VPC and Subnet in My test A/C
 Vpc() {
-read -p "Please enter the VPC and CIDR Blocl (Ex 11.0.0.0/16) : " CIRD
+read -p "Please enter the VPC and CIDR Block (Ex 11.0.0.0/16) : " CIRD
 aws ec2 create-vpc --cidr-block $CIRD >> $LOG
 }
 
@@ -49,7 +49,7 @@ read -p "Do You Want to Make You Subnet  as Public Subnet ? (Y/y)" PUB
 if [ "$PUB" == "Y" ] || [ "$PUB" == "y" ]
 then 
 Public #Calling Thrid Fun
-read -p "Do You want Enable Public IP assign Automatically ? " AUTO
+read -p "Do You want Enable Public IP assign Automatically (Y/y)? " AUTO
 if [ "$AUTO" == "Y" ] || [ "$AUTO" == "y" ]
 then
 aws ec2 modify-subnet-attribute --subnet-id $FORPUB  --map-public-ip-on-launch
