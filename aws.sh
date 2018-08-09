@@ -22,7 +22,7 @@ echo "Creating Route Table for you VPC $SUB"
 aws ec2 create-route-table --vpc-id $SUB >>$LOG
 R=`aws ec2 describe-route-tables --query 'RouteTables[0]'.'RouteTableId'`
 RT=`echo $R | tr -d '"'`
-echo "Attaching your Route table t You internet Gatway - $IG"
+echo "Attaching your Route table to You internet Gatway - $IG"
 aws ec2 create-route --route-table-id $RT --destination-cidr-block 0.0.0.0/0 --gateway-id $IG >>$LOG
 aws ec2 describe-route-tables --route-table-id $RT >>$LOG
 echo ""
